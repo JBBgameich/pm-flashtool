@@ -45,6 +45,11 @@ download()
     # Cleanup
     mkdir -p $CACHEDIR/ && pushd $CACHEDIR/
 
+    echo "Updating rootfs helper ..."
+    git submodule init
+    git submodule update
+    chmod +x halium-install/halium-install
+
     echo "Downloading latest rootfs ... "
     if [ "$2" == "neon" ]; then
         ROOTFS_VERSION=`curl http://images.plasma-mobile.org/rootfs_stamp 2> /dev/null`
@@ -84,7 +89,10 @@ flash-phone()
 
     fastboot boot $CACHEDIR/$1/recovery.img
     wait_for_device
-    ./rootfs-helper `readlink -f $CACHEDIR/pm-rootfs-latest.tar.gz` $CACHEDIR/$1/latest/system.img $CACHEDIR/$1/latest/boot.img
+
+    cd halium-install
+    ./halium-install ../`readlink -f $CACHEDIR/pm-rootfs-latest.tar.gz` ../$CACHEDIR/$1/latest/system.img $CACHEDIR/$1/latest/boot.img pm
+    cd ..
 }
 
 echo "Waiting for device to be in the fastboot mode"
