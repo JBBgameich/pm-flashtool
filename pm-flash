@@ -87,11 +87,15 @@ flash-phone()
     fastboot flash recovery $CACHEDIR/$1/recovery.img 2> /dev/null
     echo -n "[done]"
 
+    echo -n "Flashing boot image ... "
+    fastboot flash boot $CACHEDIR/$1/latest/boot.img 2> /dev/null
+    echo -n "[done]"
+
     fastboot boot $CACHEDIR/$1/recovery.img
     wait_for_device
 
     cd halium-install
-    ./halium-install ../`readlink -f $CACHEDIR/pm-rootfs-latest.tar.gz` ../$CACHEDIR/$1/latest/system.img $CACHEDIR/$1/latest/boot.img pm
+    ./halium-install ../`readlink -f $CACHEDIR/pm-rootfs-latest.tar.gz` ../$CACHEDIR/$1/latest/system.img pm
     cd ..
 }
 
@@ -126,3 +130,4 @@ if [ -z "$NOCACHE" ]; then
 fi
 
 flash-phone $DEVICE_NAME
+adb reboot
