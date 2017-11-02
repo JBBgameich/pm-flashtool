@@ -1,0 +1,3 @@
+[submodule "halium-install"]
+	path = halium-install
+	url = https://github.com/JBBgameich/halium-install
