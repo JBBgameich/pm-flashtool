@@ -1,21 +1,13 @@
 # pm-flashtool
-Tool for Flashing CM+PM as LXC Container
+Tool for Flashing Plasma Mobile on top of Halium
 
 # Typical workflow.. (How it works)
 
 - Waits for device to be in fastboot mode,
 - Downloads twrp recovery and flashes into recovery
 - Boots into recovery
-- Downloads cm.zip and pushes it to /cache
-- Creates command file with
-```
---update_package=/sdcard/cm.zip
-```
-- pushes it to /cache/recovery/command
-- Reboots into recovery
-- recovery installs cm.zip
-- reboots in system
-- Installs lxc and plasma rootfs
+- Downloads Halium hybris-boot and systemimage
+- Converts and pushes rootfs and systemimage to /data
 
 # Howto use
 
@@ -33,22 +25,10 @@ Without options pm-flash script downloads all files again, pass '-c' to let it u
 ./pm-flash -c
 ```
 
-This
-
-a) Downloads the files required in ~/.cache/plasmaphone
-b) Flashes cyanogenmod
-c) Puts togather lxc and plasma rootfs
-
 After that you can run
 
 ```
-adb root
-adb shell
-lxc-start -n system -F
+./halium-install/connect-ssh.sh
 ```
 
-to get login console and plasma started
-
-Multirom version
-----------------
-See instructions here : https://community.kde.org/Plasma/Mobile/CyanogenModBase#MultiROM_instructions_.28For_dualboot.29
+to get login console
