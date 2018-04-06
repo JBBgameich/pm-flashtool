@@ -46,8 +46,7 @@ download()
     mkdir -p $CACHEDIR/ && pushd $CACHEDIR/
 
     echo "Updating rootfs helper ..."
-    git submodule init
-    git submodule update
+    git submodule update --init --checkout --remote
     chmod +x halium-install/halium-install
 
     echo "Downloading latest rootfs ... "
